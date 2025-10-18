@@ -1,0 +1,8 @@
+1. Hardcoded Secret Key
+   - The pipeline contains 'abc123-super-secret-key' in plain text. Anyone can see it, which exposes credentials.
+
+2. No Dependency Security Scanning
+   - There is no tool (like Snyk) checking for vulnerable npm packages.
+
+3. Unverified Server Deployment
+   - The scp command does not use proper SSH key management or host verification, risking man-in-the-middle attacks.

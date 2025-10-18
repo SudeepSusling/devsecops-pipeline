@@ -1,0 +1,22 @@
+name: CI/CD Pipeline for Node.js App
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest       # This means the workflow will run on GitHub's virtual machine using the latest Ubuntu Linux OS.
+    steps:
+      - uses: actions/checkout@v3    # This downloads your GitHub repository code into the workflow environment.
+      - name: Set up Node.js               
+        uses: actions/setup-node@v3    # This installs Node.js version 16 in the runner so Node commands can be executed.
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install			# This installs all project dependencies listed in package.json using npm.
+      - name: Build
+        run: npm run build
+      - name: Deploy to server
+        env:
+          DEPLOY_KEY: 'abc123-super-secret-key'	# This sets an environment variable (a secret key) directly in the YAML file – but this is insecure because it exposes sensitive data.
+        run: scp -r ./build user@server:/var/www/app   # This copies the built files from your build folder to the remote server using Secure Copy (scp) command.
